@@ -20,6 +20,10 @@ export const ItemBox = styled.View`
   border-radius: 4px;
 `;
 
+export const ProductBox = styled.View`
+  flex: 1;
+`;
+
 export const ItemText = styled.Text`
   font-size: 16px;
 `;

@@ -8,6 +8,7 @@ import {
   Container,
   List,
   ItemBox,
+  ProductBox,
   ItemText,
   ItemPrice,
   CartButton,
@@ -18,31 +19,46 @@ import {
 
 const DATA = [
   {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 129.9,
+    id: '01',
+    desc: 'Tênis de Caminhada Leve Confortável com descrição muito grande',
+    title: 'R$ 129,90',
   },
   {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 89.9,
+    id: '02',
+    desc: 'Tênis de Caminhada Leve Confortável',
+    title: 'R$ 89,90',
   },
   {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 249.9,
+    id: '03',
+    desc: 'Tênis foda',
+    title: 'R$ 249,90',
+  },
+  {
+    id: '04',
+    desc: 'Tênis foda',
+    title: 'R$ 249,90',
+  },
+  {
+    id: '05',
+    desc: 'Tênis foda',
+    title: 'R$ 299,90',
   },
 ];
 
 function Item({ title }) {
   return (
     <ItemBox>
-      <Image
-        style={{ width: 200, height: 200 }}
-        source={{
-          uri:
-            'https://static.netshoes.com.br/produtos/tenis-nike-shox-nz-eu-masculino/14/D12-9970-014/D12-9970-014_detalhe2.jpg?ims=326x',
-        }}
-      />
-      <ItemText>Tênis de Caminhada Leve Confortável</ItemText>
-      <ItemPrice>{title}</ItemPrice>
+      <ProductBox>
+        <Image
+          style={{ width: 200, height: 200 }}
+          source={{
+            uri:
+              'https://static.netshoes.com.br/produtos/tenis-nike-shox-nz-eu-masculino/14/D12-9970-014/D12-9970-014_detalhe2.jpg?ims=326x',
+          }}
+        />
+        <ItemText>{title.desc}</ItemText>
+        <ItemPrice>{title.title}</ItemPrice>
+      </ProductBox>
       <CartButton>
         <CartIconView>
           <Icon name="add-shopping-cart" size={19} color={colors.light} />
@@ -59,7 +75,7 @@ export default function Main() {
     <Container>
       <List
         data={DATA}
-        renderItem={({ item }) => <Item title={item.title} />}
+        renderItem={({ item }) => <Item title={item} />}
         keyExtractor={item => item.id}
         horizontal
       />
