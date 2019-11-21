@@ -73,4 +73,5 @@ export const CartButtonText = styled.Text`
   color: ${colors.light};
   text-transform: uppercase;
   justify-content: center;
+  text-align: center;
 `;
