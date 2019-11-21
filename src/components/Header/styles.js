@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
-import colors from '../../styles/colors';
 
+import colors from '../../styles/colors';
 import logo from '../../assets/images/Logo.png';
 
 export const Wrapper = styled.SafeAreaView`
