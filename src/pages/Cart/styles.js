@@ -21,27 +21,28 @@ export const ItemBox = styled.View`
   background: ${colors.light};
 `;
 
-export const ItemBoxImage = styled.View`
+export const ItemImageBox = styled.View`
   flex-direction: row;
+  align-items: center;
 `;
 
-export const ItemBoxText = styled.View`
+export const ItemDetailBox = styled.View`
   flex: 1;
   flex-direction: column;
   justify-content: center;
   padding-left: 10px;
 `;
 
-export const ItemText = styled.Text`
+export const ItemDetailBoxText = styled.Text`
   font-size: 14px;
 `;
 
-export const ItemPrice = styled.Text`
+export const ItemDetailBoxPrice = styled.Text`
   font-size: 16px;
   font-weight: bold;
 `;
 
-export const ItemBoxSubTotal = styled.View`
+export const ItemSubTotalBox = styled.View`
   flex-direction: row;
   height: 40px;
   background: ${colors.lightGray};
@@ -50,9 +51,31 @@ export const ItemBoxSubTotal = styled.View`
   align-items: center;
 `;
 
-export const ItemBoxSubTotalAmount = styled.TextInput`
+export const ItemSubTotalAmountBox = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-left: 10px;
+`;
+
+export const IncreaseButton = styled(RectButton)`
+  border-radius: 12px;
+  height: 23px;
+  width: 23px;
+`;
+
+export const DecreaseButton = styled(RectButton)`
+  border-radius: 12px;
+  height: 23px;
+  width: 23px;
+`;
+
+export const DeleteButton = styled(RectButton)`
+  height: 23px;
+  width: 23px;
+`;
+
+export const ItemSubTotalBoxAmount = styled.TextInput`
   font-size: 14px;
-  margin-left: 35px;
   padding: 0;
   width: 51px;
   height: 30px;
@@ -63,24 +86,24 @@ export const ItemBoxSubTotalAmount = styled.TextInput`
   justify-content: center;
 `;
 
-export const ItemBoxSubTotalPrice = styled.Text`
+export const ItemSubTotalBoxPrice = styled.Text`
   font-size: 16px;
   font-weight: bold;
   padding-right: 10px;
 `;
 
-export const ItemBoxTotal = styled.View`
+export const ItemTotalBox = styled.View`
   padding: 10px;
   align-items: center;
 `;
 
-export const ItemBoxTotalText = styled.Text`
+export const ItemTotalBoxText = styled.Text`
   font-size: 16px;
   font-weight: bold;
   color: ${colors.darkGray};
 `;
 
-export const ItemBoxTotalPrice = styled.Text`
+export const ItemTotalBoxPrice = styled.Text`
   font-size: 30px;
   font-weight: bold;
 `;

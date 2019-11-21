@@ -1,20 +1,27 @@
 import React from 'react';
 import { Image } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
+import colors from '../../styles/colors';
 
 import {
   Container,
   List,
   ItemBox,
-  ItemBoxImage,
-  ItemBoxText,
-  ItemText,
-  ItemPrice,
-  ItemBoxSubTotal,
-  ItemBoxSubTotalAmount,
-  ItemBoxSubTotalPrice,
-  ItemBoxTotal,
-  ItemBoxTotalText,
-  ItemBoxTotalPrice,
+  ItemImageBox,
+  ItemDetailBox,
+  DeleteButton,
+  ItemDetailBoxText,
+  ItemDetailBoxPrice,
+  ItemSubTotalBox,
+  ItemSubTotalAmountBox,
+  IncreaseButton,
+  DecreaseButton,
+  ItemSubTotalBoxAmount,
+  ItemSubTotalBoxPrice,
+  ItemTotalBox,
+  ItemTotalBoxText,
+  ItemTotalBoxPrice,
   OrderButton,
   OrderButtonText,
 } from './styles';
@@ -50,7 +57,7 @@ const DATA = [
 function Item({ title }) {
   return (
     <>
-      <ItemBoxImage>
+      <ItemImageBox>
         <Image
           style={{ width: 80, height: 80 }}
           source={{
@@ -58,15 +65,30 @@ function Item({ title }) {
               'https://static.netshoes.com.br/produtos/tenis-nike-shox-nz-eu-masculino/14/D12-9970-014/D12-9970-014_detalhe2.jpg?ims=326x',
           }}
         />
-        <ItemBoxText>
-          <ItemText>{title.desc}</ItemText>
-          <ItemPrice>{title.title}</ItemPrice>
-        </ItemBoxText>
-      </ItemBoxImage>
-      <ItemBoxSubTotal>
-        <ItemBoxSubTotalAmount>3</ItemBoxSubTotalAmount>
-        <ItemBoxSubTotalPrice>R$ 539,70</ItemBoxSubTotalPrice>
-      </ItemBoxSubTotal>
+        <ItemDetailBox>
+          <ItemDetailBoxText>{title.desc}</ItemDetailBoxText>
+          <ItemDetailBoxPrice>{title.title}</ItemDetailBoxPrice>
+        </ItemDetailBox>
+        <DeleteButton>
+          <Icon name="delete-forever" size={23} color={colors.primary} />
+        </DeleteButton>
+      </ItemImageBox>
+      <ItemSubTotalBox>
+        <ItemSubTotalAmountBox>
+          <IncreaseButton>
+            <Icon
+              name="remove-circle-outline"
+              size={23}
+              color={colors.primary}
+            />
+          </IncreaseButton>
+          <ItemSubTotalBoxAmount>3</ItemSubTotalBoxAmount>
+          <DecreaseButton>
+            <Icon name="add-circle-outline" size={23} color={colors.primary} />
+          </DecreaseButton>
+        </ItemSubTotalAmountBox>
+        <ItemSubTotalBoxPrice>R$ 539,70</ItemSubTotalBoxPrice>
+      </ItemSubTotalBox>
     </>
   );
 }
@@ -80,10 +102,10 @@ export default function Cart() {
           renderItem={({ item }) => <Item title={item} />}
           keyExtractor={item => item.id}
         />
-        <ItemBoxTotal>
-          <ItemBoxTotalText>TOTAL</ItemBoxTotalText>
-          <ItemBoxTotalPrice>R$ 1619,10</ItemBoxTotalPrice>
-        </ItemBoxTotal>
+        <ItemTotalBox>
+          <ItemTotalBoxText>TOTAL</ItemTotalBoxText>
+          <ItemTotalBoxPrice>R$ 1619,10</ItemTotalBoxPrice>
+        </ItemTotalBox>
         <OrderButton>
           <OrderButtonText>FINALIZAR PEDIDO</OrderButtonText>
         </OrderButton>
