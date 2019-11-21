@@ -1,7 +1,8 @@
 import React from 'react';
 import { Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import Header from '../../components/Header';
+
+import colors from '../../styles/colors';
 
 import {
   Container,
@@ -18,15 +19,15 @@ import {
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
+    title: 129.9,
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
+    title: 89.9,
   },
   {
     id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
+    title: 249.9,
   },
 ];
 
@@ -41,10 +42,10 @@ function Item({ title }) {
         }}
       />
       <ItemText>Tênis de Caminhada Leve Confortável</ItemText>
-      <ItemPrice>R$ 192,90</ItemPrice>
+      <ItemPrice>{title}</ItemPrice>
       <CartButton>
         <CartIconView>
-          <Icon name="add-shopping-cart" size={19} color="#FFF" />
+          <Icon name="add-shopping-cart" size={19} color={colors.light} />
           <CartIconText>1</CartIconText>
         </CartIconView>
         <CartButtonText>Teste</CartButtonText>
