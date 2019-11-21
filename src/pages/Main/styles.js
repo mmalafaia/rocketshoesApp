@@ -3,6 +3,7 @@ import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   flex: 1;
+  padding: 20px;
   padding-top: 40px;
   background: #191920;
 `;
@@ -14,6 +15,7 @@ export const ItemBox = styled.View`
   margin-right: 15px;
   width: 220px;
   height: 358px;
+  border-radius: 4px;
 `;
 
 export const ItemText = styled.Text`
