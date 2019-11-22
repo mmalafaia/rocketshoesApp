@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { RectButton } from 'react-native-gesture-handler';
 
 import colors from '../../styles/colors';
 import logo from '../../assets/images/Logo.png';
@@ -16,6 +17,11 @@ export const Container = styled.View`
   padding: 20px;
 `;
 
+export const LogoButton = styled(RectButton)`
+  width: 185px;
+  height: 24px;
+`;
+
 export const Logo = styled.Image.attrs({
   source: logo,
   resizeMode: 'cover',
@@ -24,7 +30,7 @@ export const Logo = styled.Image.attrs({
   height: 24px;
 `;
 
-export const BasketContainer = styled.TouchableOpacity`
+export const BasketContainer = styled(RectButton)`
   height: 24px;
   width: 24px;
   flex: 1;

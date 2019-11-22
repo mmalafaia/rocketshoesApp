@@ -1,7 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import { formatPrice } from '../../util/format';
+import * as CartActions from '../../store/modules/cart/actions';
 import colors from '../../styles/colors';
 
 import {
@@ -26,85 +30,67 @@ import {
   OrderButtonText,
 } from './styles';
 
-const DATA = [
-  {
-    id: '01',
-    desc: 'Tênis de Caminhada Leve Confortável com descrição muito grande',
-    title: 'R$ 129,90',
-  },
-  {
-    id: '02',
-    desc: 'Tênis de Caminhada Leve Confortável',
-    title: 'R$ 89,90',
-  },
-  {
-    id: '03',
-    desc: 'Tênis foda',
-    title: 'R$ 249,90',
-  },
-  {
-    id: '04',
-    desc: 'Tênis foda',
-    title: 'R$ 249,90',
-  },
-  {
-    id: '05',
-    desc: 'Tênis foda',
-    title: 'R$ 299,90',
-  },
-];
+function Cart({ cart, total, removeFromCart, updateAmountRequest }) {
+  function increment(product) {
+    updateAmountRequest(product.id, product.amount + 1);
+  }
 
-function Item({ title }) {
-  return (
-    <>
-      <ItemImageBox>
-        <Image
-          style={{ width: 80, height: 80 }}
-          source={{
-            uri:
-              'https://static.netshoes.com.br/produtos/tenis-nike-shox-nz-eu-masculino/14/D12-9970-014/D12-9970-014_detalhe2.jpg?ims=326x',
-          }}
-        />
-        <ItemDetailBox>
-          <ItemDetailBoxText>{title.desc}</ItemDetailBoxText>
-          <ItemDetailBoxPrice>{title.title}</ItemDetailBoxPrice>
-        </ItemDetailBox>
-        <DeleteButton>
-          <Icon name="delete-forever" size={23} color={colors.primary} />
-        </DeleteButton>
-      </ItemImageBox>
-      <ItemSubTotalBox>
-        <ItemSubTotalAmountBox>
-          <IncreaseButton>
-            <Icon
-              name="remove-circle-outline"
-              size={23}
-              color={colors.primary}
-            />
-          </IncreaseButton>
-          <ItemSubTotalBoxAmount>3</ItemSubTotalBoxAmount>
-          <DecreaseButton>
-            <Icon name="add-circle-outline" size={23} color={colors.primary} />
-          </DecreaseButton>
-        </ItemSubTotalAmountBox>
-        <ItemSubTotalBoxPrice>R$ 539,70</ItemSubTotalBoxPrice>
-      </ItemSubTotalBox>
-    </>
-  );
-}
+  function decrement(product) {
+    updateAmountRequest(product.id, product.amount - 1);
+  }
+  function Item({ product }) {
+    return (
+      <>
+        <ItemImageBox>
+          <Image
+            style={{ width: 80, height: 80 }}
+            source={{
+              uri: product.image,
+            }}
+          />
+          <ItemDetailBox>
+            <ItemDetailBoxText>{product.title}</ItemDetailBoxText>
+            <ItemDetailBoxPrice>{product.priceFormatted}</ItemDetailBoxPrice>
+          </ItemDetailBox>
+          <DeleteButton onPress={() => removeFromCart(product.id)}>
+            <Icon name="delete-forever" size={23} color={colors.primary} />
+          </DeleteButton>
+        </ItemImageBox>
+        <ItemSubTotalBox>
+          <ItemSubTotalAmountBox>
+            <DecreaseButton onPress={() => decrement(product)}>
+              <Icon
+                name="remove-circle-outline"
+                size={23}
+                color={colors.primary}
+              />
+            </DecreaseButton>
+            <ItemSubTotalBoxAmount>{product.amount}</ItemSubTotalBoxAmount>
+            <IncreaseButton onPress={() => increment(product)}>
+              <Icon
+                name="add-circle-outline"
+                size={23}
+                color={colors.primary}
+              />
+            </IncreaseButton>
+          </ItemSubTotalAmountBox>
+          <ItemSubTotalBoxPrice>{product.subtotal}</ItemSubTotalBoxPrice>
+        </ItemSubTotalBox>
+      </>
+    );
+  }
 
-export default function Cart() {
   return (
     <Container>
       <ItemBox>
         <List
-          data={DATA}
-          renderItem={({ item }) => <Item title={item} />}
-          keyExtractor={item => item.id}
+          data={cart}
+          renderItem={({ item }) => <Item product={item} />}
+          keyExtractor={item => String(item.id)}
         />
         <ItemTotalBox>
           <ItemTotalBoxText>TOTAL</ItemTotalBoxText>
-          <ItemTotalBoxPrice>R$ 1619,10</ItemTotalBoxPrice>
+          <ItemTotalBoxPrice>{total}</ItemTotalBoxPrice>
         </ItemTotalBox>
         <OrderButton>
           <OrderButtonText>FINALIZAR PEDIDO</OrderButtonText>
@@ -113,3 +99,19 @@ export default function Cart() {
     </Container>
   );
 }
+const mapStateToProps = state => ({
+  cart: state.cart.map(product => ({
+    ...product,
+    subtotal: formatPrice(product.price * product.amount),
+  })),
+  total: formatPrice(
+    state.cart.reduce((total, product) => {
+      return total + product.price * product.amount;
+    }, 0),
+  ),
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(CartActions, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);
