@@ -47,6 +47,7 @@ class Home extends Component {
 
   render() {
     const { products } = this.state;
+    const { amount } = this.props;
 
     return (
       <Container>
@@ -73,7 +74,7 @@ class Home extends Component {
                     size={19}
                     color={colors.light}
                   />
-                  <CartIconText>0</CartIconText>
+                  <CartIconText>{amount[item.id] || 0}</CartIconText>
                 </CartIconView>
                 <CartButtonText>ADICIONAR</CartButtonText>
               </CartButton>
