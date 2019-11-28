@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { formatPrice } from '../../util/format';
@@ -23,78 +22,62 @@ import {
   CartIconText,
 } from './styles';
 
-class Home extends Component {
-  state = {
-    products: [],
-  };
+export default function Home() {
+  const [products, setProducts] = useState([]);
+  const amount = useSelector(state =>
+    state.cart.reduce((sumAmount, product) => {
+      sumAmount[product.id] = product.amount || 0;
 
-  async componentDidMount() {
-    const response = await api.get('products');
+      return sumAmount;
+    }, {}),
+  );
 
-    const data = response.data.map(product => ({
-      ...product,
-      priceFormatted: formatPrice(product.price),
-    }));
+  const dispatch = useDispatch();
 
-    this.setState({ products: data });
-  }
+  useEffect(() => {
+    async function loadProducts() {
+      const response = await api.get('products');
 
-  handleAddProduct = id => {
-    const { addToCartRequest } = this.props;
+      const data = response.data.map(product => ({
+        ...product,
+        priceFormatted: formatPrice(product.price),
+      }));
 
-    addToCartRequest(id);
-  };
+      setProducts(data);
+    }
+    loadProducts();
+  }, []);
 
-  render() {
-    const { products } = this.state;
-    const { amount } = this.props;
-
-    return (
-      <Container>
-        <List
-          data={products}
-          horizontal
-          keyExtractor={item => String(item.id)}
-          renderItem={({ item }) => (
-            <ItemBox>
-              <ProductBox>
-                <Image
-                  style={{ width: 200, height: 200 }}
-                  source={{
-                    uri: `${item.image}`,
-                  }}
-                />
-                <ItemText>{item.title}</ItemText>
-                <ItemPrice>{item.priceFormatted}</ItemPrice>
-              </ProductBox>
-              <CartButton onPress={() => this.handleAddProduct(item.id)}>
-                <CartIconView>
-                  <Icon
-                    name="add-shopping-cart"
-                    size={19}
-                    color={colors.light}
-                  />
-                  <CartIconText>{amount[item.id] || 0}</CartIconText>
-                </CartIconView>
-                <CartButtonText>ADICIONAR</CartButtonText>
-              </CartButton>
-            </ItemBox>
-          )}
-        />
-      </Container>
-    );
-  }
+  return (
+    <Container>
+      <List
+        data={products}
+        horizontal
+        keyExtractor={item => String(item.id)}
+        renderItem={({ item }) => (
+          <ItemBox>
+            <ProductBox>
+              <Image
+                style={{ width: 200, height: 200 }}
+                source={{
+                  uri: `${item.image}`,
+                }}
+              />
+              <ItemText>{item.title}</ItemText>
+              <ItemPrice>{item.priceFormatted}</ItemPrice>
+            </ProductBox>
+            <CartButton
+              onPress={() => dispatch(CartActions.addToCartRequest(item.id))}
+            >
+              <CartIconView>
+                <Icon name="add-shopping-cart" size={19} color={colors.light} />
+                <CartIconText>{amount[item.id] || 0}</CartIconText>
+              </CartIconView>
+              <CartButtonText>ADICIONAR</CartButtonText>
+            </CartButton>
+          </ItemBox>
+        )}
+      />
+    </Container>
+  );
 }
-
-const mapStateToProps = state => ({
-  amount: state.cart.reduce((amount, product) => {
-    amount[product.id] = product.amount || 0;
-
-    return amount;
-  }, {}),
-});
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(CartActions, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
