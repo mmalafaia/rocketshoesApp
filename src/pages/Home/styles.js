@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { RectButton } from 'react-native-gesture-handler';
+import { darken } from 'polished';
 
 import colors from '../../styles/colors';
 
@@ -58,6 +59,7 @@ export const CartIconView = styled.View`
   justify-content: center;
   width: 53px;
   height: 42px;
+  background: ${darken(0.03, `${colors.primary}`)};
 `;
 
 export const CartIconText = styled.Text`
