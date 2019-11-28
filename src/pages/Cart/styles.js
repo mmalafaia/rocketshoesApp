@@ -21,6 +21,20 @@ export const ItemBox = styled.View`
   background: ${colors.light};
 `;
 
+export const CartEmptyBox = styled.View`
+  padding: 15px;
+  border-radius: 4px;
+  background: ${colors.light};
+  align-items: center;
+`;
+
+export const CartEmptyText = styled.Text`
+  font-size: 20px;
+  font-weight: bold;
+  padding-right: 10px;
+  margin-top: 20px;
+`;
+
 export const ItemImageBox = styled.View`
   flex-direction: row;
   align-items: center;

@@ -11,6 +11,8 @@ import {
   Container,
   List,
   ItemBox,
+  CartEmptyBox,
+  CartEmptyText,
   ItemImageBox,
   ItemDetailBox,
   DeleteButton,
@@ -30,6 +32,7 @@ import {
 } from './styles';
 
 export default function Cart() {
+  const cartSize = useSelector(state => state.cart.length);
   const total = useSelector(state =>
     formatPrice(
       state.cart.reduce((totalSum, product) => {
@@ -54,6 +57,16 @@ export default function Cart() {
   function decrement(product) {
     dispatch(CartActions.updateAmountRequest(product.id, product.amount - 1));
   }
+
+  if (cartSize === 0)
+    return (
+      <Container>
+        <CartEmptyBox>
+          <Icon name="remove-shopping-cart" size={60} color="#ddd" />
+          <CartEmptyText>Seu carrinho está vazio.</CartEmptyText>
+        </CartEmptyBox>
+      </Container>
+    );
 
   return (
     <Container>
